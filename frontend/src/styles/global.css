@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@500;600&family=Inter:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color: theme('colors.on.background');
+    background: theme('colors.background');
+    font-family: theme('fontFamily.sans');
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background: theme('colors.background');
+    color: theme('colors.on.surface');
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+@layer components {
+  .btn-cta-sheen {
+    @apply relative overflow-hidden;
+  }
+
+  .btn-cta-sheen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 44%;
+    transform: translateX(-160%) skewX(-18deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+    pointer-events: none;
+  }
+
+  .btn-cta-sheen:hover::after {
+    animation: cvision-button-sheen 760ms ease-out;
+  }
+
+  .btn-hero-arrow svg {
+    transition: transform 220ms ease;
+  }
+
+  .btn-hero-arrow:hover svg {
+    transform: translateX(4px);
+  }
+
+  .auth-card-shell {
+    @apply relative;
+  }
+
+  .auth-card-shell::before {
+    content: '';
+    position: absolute;
+    top: 57px;
+    bottom: 0;
+    width: 58%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    background:
+      linear-gradient(90deg, rgba(183, 215, 254, 0), rgba(183, 215, 254, 0.28), rgba(183, 215, 254, 0)),
+      linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(245, 243, 244, 0.82));
+  }
+
+  .auth-mode-login::before {
+    animation: cvision-auth-wash-left 1720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .auth-mode-register::before {
+    animation: cvision-auth-wash-right 1720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .auth-mode-recover::before {
+    animation: cvision-auth-wash-center 1680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .auth-panel-enter {
+    transform-origin: top center;
+    animation: cvision-auth-panel-enter 1620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    will-change: opacity, transform;
+  }
+
+  .auth-panel-login {
+    --auth-panel-x: -18px;
+  }
+
+  .auth-panel-register {
+    --auth-panel-x: 18px;
+  }
+
+  .auth-panel-recover {
+    --auth-panel-x: 0px;
+  }
+
+  .auth-panel-enter > * {
+    animation: cvision-auth-item-enter 1680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .auth-panel-enter > *:nth-child(1) {
+    animation-delay: 40ms;
+  }
+
+  .auth-panel-enter > *:nth-child(2) {
+    animation-delay: 80ms;
+  }
+
+  .auth-panel-enter > *:nth-child(3) {
+    animation-delay: 120ms;
+  }
+
+  .auth-panel-enter > *:nth-child(4) {
+    animation-delay: 160ms;
+  }
+
+  .dashboard-card-depth {
+    box-shadow:
+      0 18px 34px -30px rgba(11, 31, 42, 0.55),
+      0 1px 2px rgba(11, 31, 42, 0.05);
+  }
+}
+
+@keyframes cvision-button-sheen {
+  from {
+    transform: translateX(-160%) skewX(-18deg);
+  }
+
+  to {
+    transform: translateX(260%) skewX(-18deg);
+  }
+}
+
+@keyframes cvision-auth-panel-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--auth-panel-x), 0, 0) scale(0.985);
+  }
+
+  45% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes cvision-auth-item-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(calc(var(--auth-panel-x) * 0.45), 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes cvision-auth-wash-left {
+  0% {
+    opacity: 0;
+    transform: translateX(70%) skewX(-8deg);
+  }
+
+  35% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-45%) skewX(-8deg);
+  }
+}
+
+@keyframes cvision-auth-wash-right {
+  0% {
+    opacity: 0;
+    transform: translateX(-45%) skewX(-8deg);
+  }
+
+  35% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(70%) skewX(-8deg);
+  }
+}
+
+@keyframes cvision-auth-wash-center {
+  0% {
+    opacity: 0;
+    transform: translateX(20%) scaleX(0.8);
+  }
+
+  35% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(20%) scaleX(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-cta-sheen:hover::after,
+  .auth-card-shell::before,
+  .auth-panel-enter,
+  .auth-panel-enter > * {
+    animation: none;
+  }
+}
