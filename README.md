@@ -8,106 +8,73 @@ El proyecto esta organizado como un monorepo con una aplicacion React/Vite en el
 
 ```txt
 CVision/
-├── backend/    # API REST Express + Prisma + PostgreSQL
-└── frontend/   # React + Vite + TailwindCSS + Typst WASM
+├── frontend/   # React + Vite + TailwindCSS
+├── backend/    # API Node.js + Express + Prisma
+└── docker-compose*.yml
+```
+
+## Requisitos
+
+- Docker Engine
+- Docker Compose v2
+
+## Levantar todo con Docker Compose
+
+### Desarrollo
+
+Levanta Postgres, ejecuta migraciones Prisma y deja frontend + backend en modo hot reload.
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
+Servicios expuestos:
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:4000`
+- Healthcheck backend: `http://localhost:4000/api/health`
+- Postgres: `localhost:5433`
+
+### Producción-like
+
+Compila el frontend y lo sirve con Nginx; el backend queda detrás del proxy `/api`.
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+```
+
+Servicios expuestos:
+- Frontend + API proxy: `http://localhost:8080`
+- Healthcheck backend por proxy: `http://localhost:8080/api/health`
+
+## Variables de entorno
+
+- `backend/.env` contiene secretos y configuración base del backend.
+- En Docker Compose, `DATABASE_URL`, `PORT` y `CORS_ORIGIN` se sobreescriben según el entorno.
+- `frontend/.env.example` sigue siendo útil si quieres correr el frontend fuera de Docker.
+
+## Ejecución local sin Docker
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Backend
+
+```bash
+cd backend
+npm install
+npm run dev
 ```
 
 ## Stack
 
 - Frontend: React 18, Vite, TailwindCSS, React Router, react-pdf, Typst WASM.
 - Backend: Node.js, Express, Prisma, PostgreSQL, JWT, Zod, Pino.
-- Infra local: Docker Compose para PostgreSQL.
 - IA: Gemini API para optimizacion de texto y analisis ATS.
-
-## Requisitos
-
-- Node.js 22 o compatible con los scripts del proyecto.
-- npm.
-- Docker y Docker Compose para levantar PostgreSQL local.
-- Opcional: una API key de Gemini para usar las funciones de IA.
-
-## Configuracion Rapida
-
-1. Configurar variables de entorno:
-
-```bash
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
-```
-
-1. Instalar dependencias:
-
-```bash
-cd backend
-npm install
-
-cd ../frontend
-npm install
-```
-
-1. Levantar la base de datos y preparar Prisma:
-
-```bash
-cd backend
-docker compose up -d
-npm run prisma:migrate
-npm run prisma:seed
-```
-
-1. Iniciar backend y frontend en terminales separadas:
-
-```bash
-cd backend
-npm run dev
-```
-
-```bash
-cd frontend
-npm run dev
-```
-
-URLs locales por defecto:
-
-- Frontend: `http://localhost:5173`
-- Backend: `http://localhost:4000/api`
-- Health check: `http://localhost:4000/api/health`
-- PostgreSQL: `localhost:5433`
-
-## Comandos Utiles
-
-Backend:
-
-```bash
-cd backend
-npm run dev        # levantar server en local
-npm run start      # levantar server en producción
-npm run lint
-npm run prisma:migrate
-npm run prisma:seed
-npm run prisma:studio
-```
-
-Frontend:
-
-```bash
-cd frontend
-npm run dev        # levantar server en local
-npm run build      # build bundle
-npm run preview    # levantar server en producción
-npm run lint
-npm run typecheck
-```
-
-## Funcionalidades Principales
-
-- Registro, login, logout, verificacion de email y recuperacion de contrasena.
-- Sesion con access token y refresh token.
-- Editor de CV con formulario y previsualizacion PDF.
-- Renderizado local del PDF con Typst WASM y fuentes incluidas en `frontend/public/fonts`.
-- Guardado, listado, carga, renombrado y eliminacion de CVs.
-- Mejora de campos del CV con IA.
-- Analisis del CV con score, sugerencias, inconsistencias, campos faltantes y keywords ATS.
-- Rutas protegidas por autenticacion y ruta de administracion para roles `ADMIN` y `MODERATOR`.
 
 ## Documentacion por Modulo
 
