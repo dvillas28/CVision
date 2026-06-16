@@ -8,7 +8,8 @@ import { RecoverPasswordPage } from '../pages/auth/RecoverPasswordPage.jsx';
 import { RegisterPage } from '../pages/auth/RegisterPage.jsx';
 import { AdminDashboardPage } from '../pages/dashboard/AdminDashboardPage.jsx';
 import { ComingSoonPage } from '../pages/dashboard/ComingSoonPage.jsx';
-import { DashboardPage } from '../pages/dashboard/DashboardPage.jsx';
+import { DashboardPage } from '../pages/dashboard/DashboardPage.tsx';
+import { MyCvsPage } from '../pages/dashboard/MyCvsPage.jsx';
 import { LandingFooterLogos, LandingPage } from '../pages/LandingPage.jsx';
 import { ProtectedRoute } from './ProtectedRoute.jsx';
 
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
         element: (
           <PublicLayout
             footerProps={{
-              text: '© 2026 CVision - BNE & SENCE Chile. All rights reserved. Potenciando la empleabilidad en todo el territorio nacional.',
+              text: '© 2026 CVision · BNE & SENCE Chile. Todos los derechos reservados. Potenciando la empleabilidad en todo el territorio nacional.',
               logos: <LandingFooterLogos />,
             }}
           />
@@ -64,7 +65,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'cvs',
-            element: <ComingSoonPage />,
+            element: <MyCvsPage />,
           },
           {
             path: 'cvs/new',

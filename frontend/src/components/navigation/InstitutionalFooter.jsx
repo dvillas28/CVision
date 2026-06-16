@@ -9,7 +9,7 @@ const defaultLinks = [
 
 export function InstitutionalFooter({
   brand = 'CVision',
-  text = '© 2026 CVision - BNE & SENCE Chile. All rights reserved.',
+  text = '© 2026 CVision - BNE & SENCE Chile. Todos los derechos reservados.',
   links = defaultLinks,
   logos,
   className,
@@ -21,13 +21,13 @@ export function InstitutionalFooter({
           <p className="font-heading text-label-md text-on-surface">{brand}</p>
           <p className="mt-3 text-body-sm text-on-surface-variant">{text}</p>
         </div>
-        <nav aria-label="Enlaces institucionales" className="flex flex-wrap gap-x-8 gap-y-3">
+        {/* <nav aria-label="Enlaces institucionales" className="flex flex-wrap gap-x-8 gap-y-3">
           {links.map((link) => (
             <a key={link.href} href={link.href} className="font-heading text-label-sm text-on-surface hover:text-secondary">
               {link.label}
             </a>
           ))}
-        </nav>
+        </nav> */}
         {logos ? <div className="flex shrink-0 items-center gap-4">{logos}</div> : null}
       </div>
     </footer>
