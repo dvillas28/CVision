@@ -39,7 +39,7 @@ projects:
                 generateValue: true
               - key: JWT_REFRESH_SECRET
                 generateValue: true
-              # URL del sitio estático, p. ej. https://cvision-web.onrender.com
+              # URL del sitio estático, p. ej. https://cvision.onrender.com
               - key: CORS_ORIGIN
                 sync: false
               - key: LOG_LEVEL
@@ -59,7 +59,7 @@ projects:
                 value: "30"
 
           - type: web
-            name: cvision-web
+            name: cvision
             runtime: static
             rootDir: frontend
             buildCommand: npm ci && npm run build

@@ -75,14 +75,14 @@ npm run dev
 El archivo [`render.yaml`](render.yaml) es un Blueprint de Render que crea el Project `cvision` (entorno `production`) con dos servicios:
 
 - `cvision-api`: Web Service gratuito de Node (`backend/`). Las migraciones corren en el build porque el pre-deploy command es solo de pago. Se duerme tras 15 min sin tráfico; el frontend muestra "Despertando el servidor…" mientras despierta.
-- `cvision-web`: Static Site (`frontend/`) con rewrite de `/*` a `/index.html`.
+- `cvision`: Static Site (`frontend/`) con rewrite de `/*` a `/index.html`.
 
 La base de datos va en Neon Free (fuera de Render). Pasos:
 
 1. Crear un proyecto en Neon en `us-west-2` (misma zona que `region: oregon`) y copiar las URLs *pooled* y *direct*.
 2. En Render: **New → Blueprint**, elegir este repo y completar las variables marcadas con `sync: false`:
    - `DATABASE_URL` (pooled) y `DIRECT_URL` (direct), ambas con `?sslmode=require`.
-   - `CORS_ORIGIN` = URL del sitio estático (p. ej. `https://cvision-web.onrender.com`).
+   - `CORS_ORIGIN` = URL del sitio estático (p. ej. `https://cvision.onrender.com`).
    - `VITE_API_BASE_URL` = URL del backend + `/api` (p. ej. `https://cvision-api.onrender.com/api`).
    - `GEMINI_API_KEY` y, opcionalmente, `GROQ_API_KEY` como respaldo cuando Gemini responde 429 o 5xx.
 3. Si Render asigna nombres con sufijo, corregir `CORS_ORIGIN` y `VITE_API_BASE_URL` y redesplegar el sitio estático (Vite resuelve la URL en build time).
