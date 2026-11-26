@@ -53,6 +53,9 @@ Variables disponibles:
 | `GEMINI_API_KEY` | API key de Gemini | Vacio |
 | `AI_MODEL` | Modelo Gemini usado por la API (Flash-Lite por la cuota del free tier) | `gemini-2.5-flash-lite` |
 | `AI_IMPROVE_FIELD_MAX_OUTPUT_TOKENS` | Maximo de tokens de salida para mejorar campos con IA | `4096` |
+| `GROQ_API_KEY` | API key de Groq (respaldo opcional si Gemini responde 429 o 5xx) | Vacio |
+| `AI_FALLBACK_MODEL` | Modelo de Groq usado como respaldo | `openai/gpt-oss-120b` |
+| `AI_FALLBACK_MAX_OUTPUT_TOKENS` | Tope de tokens de salida en Groq (su free tier tiene ~8K tokens/min) | `4096` |
 | `AI_RATE_LIMIT_PER_MINUTE` | Solicitudes de IA por minuto por usuario | `5` |
 | `AI_DAILY_LIMIT_PER_USER` | Solicitudes de IA por dia por usuario | `30` |
 

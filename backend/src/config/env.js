@@ -16,6 +16,9 @@ const envSchema = z.object({
   GEMINI_API_KEY: z.string().optional(),
   AI_MODEL: z.string().default('gemini-2.5-flash-lite'),
   AI_IMPROVE_FIELD_MAX_OUTPUT_TOKENS: z.coerce.number().int().positive().default(4096),
+  GROQ_API_KEY: z.string().optional(),
+  AI_FALLBACK_MODEL: z.string().default('openai/gpt-oss-120b'),
+  AI_FALLBACK_MAX_OUTPUT_TOKENS: z.coerce.number().int().positive().default(4096),
   AI_RATE_LIMIT_PER_MINUTE: z.coerce.number().int().positive().default(5),
   AI_DAILY_LIMIT_PER_USER: z.coerce.number().int().positive().default(30),
 });
