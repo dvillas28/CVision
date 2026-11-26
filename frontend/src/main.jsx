@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/index.js';
 import { router } from './routes/router.jsx';
+import { wakeUpServer } from './services/serverWakeup.js';
 import './styles/global.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -50,3 +51,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </AuthProvider>
   </React.StrictMode>,
 );
+
+wakeUpServer();

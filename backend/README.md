@@ -22,7 +22,9 @@ npm install
 npm run dev
 ```
 
-Para usar una base local fuera de Docker, ajusta `DATABASE_URL` en `.env`.
+Para usar una base local fuera de Docker, ajusta `DATABASE_URL` y `DIRECT_URL` en `.env`.
+
+> Prisma exige que `DIRECT_URL` exista cuando corre la CLI (`migrate`, `generate`, `studio`). En local basta con copiar el mismo valor de `DATABASE_URL`; con un pooler como Neon, `DATABASE_URL` es la URL *pooled* y `DIRECT_URL` la *direct*.
 
 
 ### Configuracion local (fuera de Docker)
@@ -40,7 +42,8 @@ Variables disponibles:
 | `NODE_ENV` | Ambiente de ejecucion | `development` |
 | `PORT` | Puerto HTTP del backend | `4000` |
 | `API_PREFIX` | Prefijo global de la API | `/api` |
-| `DATABASE_URL` | Conexion PostgreSQL usada por Prisma | `postgresql://cvision:cvision@localhost:5433/cvision?schema=public` |
+| `DATABASE_URL` | Conexion PostgreSQL usada por Prisma (en Neon, la URL *pooled* con `-pooler`) | `postgresql://cvision:cvision@localhost:5433/cvision?schema=public` |
+| `DIRECT_URL` | Conexion directa sin pooler, usada por `prisma migrate` (en Neon, la URL *direct*) | Igual a `DATABASE_URL` |
 | `JWT_ACCESS_SECRET` | Secreto para access tokens | Cambiar en ambientes reales |
 | `JWT_REFRESH_SECRET` | Secreto para refresh tokens | Cambiar en ambientes reales |
 | `JWT_ACCESS_EXPIRES_IN` | Duracion del access token en segundos | `900` |
@@ -48,8 +51,13 @@ Variables disponibles:
 | `CORS_ORIGIN` | Origen permitido para el frontend | `http://localhost:5173` |
 | `LOG_LEVEL` | Nivel de logs Pino | `info` |
 | `GEMINI_API_KEY` | API key de Gemini | Vacio |
-| `AI_MODEL` | Modelo Gemini usado por la API | `gemini-2.5-flash` |
+| `AI_MODEL` | Modelo Gemini usado por la API (Flash-Lite por la cuota del free tier) | `gemini-2.5-flash-lite` |
 | `AI_IMPROVE_FIELD_MAX_OUTPUT_TOKENS` | Maximo de tokens de salida para mejorar campos con IA | `4096` |
+| `GROQ_API_KEY` | API key de Groq (respaldo opcional si Gemini responde 429 o 5xx) | Vacio |
+| `AI_FALLBACK_MODEL` | Modelo de Groq usado como respaldo | `openai/gpt-oss-120b` |
+| `AI_FALLBACK_MAX_OUTPUT_TOKENS` | Tope de tokens de salida en Groq (su free tier tiene ~8K tokens/min) | `4096` |
+| `AI_RATE_LIMIT_PER_MINUTE` | Solicitudes de IA por minuto por usuario | `5` |
+| `AI_DAILY_LIMIT_PER_USER` | Solicitudes de IA por dia por usuario | `30` |
 
 
 La API queda disponible en `http://localhost:4000/api`.
