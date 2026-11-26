@@ -221,6 +221,14 @@ async function createStructuredResponse({ instructions, input, schema, maxOutput
 
   const payload = await response.json().catch(() => null);
 
+  if (response.status === 429) {
+    throw new AppError('El servicio de IA alcanzó su cuota de uso. Intenta nuevamente más tarde.', {
+      statusCode: 429,
+      code: errorCodes.AI_QUOTA_EXCEEDED,
+      details: payload?.error ? [payload.error] : [],
+    });
+  }
+
   if (!response.ok) {
     throw new AppError(payload?.error?.message ?? 'Gemini request failed', {
       statusCode: response.status >= 500 ? 502 : 400,

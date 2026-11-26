@@ -27,6 +27,7 @@ services:
       NODE_ENV: production
       PORT: 4000
       DATABASE_URL: postgresql://cvision:cvision@db:5432/cvision?schema=public
+      DIRECT_URL: postgresql://cvision:cvision@db:5432/cvision?schema=public
       CORS_ORIGIN: http://localhost:8080
     command: ["npx", "prisma", "migrate", "deploy"]
     depends_on:
