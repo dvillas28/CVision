@@ -38,6 +38,24 @@ export interface AiCvAnalysis {
   keywords: string[];
 }
 
+const AI_RATE_LIMIT_MESSAGE = 'Alcanzaste el límite de uso de la IA. Espera un momento e intenta nuevamente.';
+
+async function aiRequest(path: string, payload: unknown) {
+  try {
+    return await apiClient(path, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    // El backend ya responde en español; esto cubre un 429 sin cuerpo (p. ej. desde un proxy).
+    const apiError = error as Error & { status?: number; code?: string };
+    if (apiError.status === 429 && !apiError.code) {
+      apiError.message = AI_RATE_LIMIT_MESSAGE;
+    }
+    throw error;
+  }
+}
+
 export async function improveField(payload: {
   fieldPath: string;
   fieldLabel: string;
@@ -46,10 +64,7 @@ export async function improveField(payload: {
   targetRole?: string;
   cv: CvFormData;
 }) {
-  const response = await apiClient('/ai/improve-field', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  });
+  const response = await aiRequest('/ai/improve-field', payload);
 
   return response.data as AiFieldImprovement;
 }
@@ -58,10 +73,7 @@ export async function analyzeCv(payload: {
   targetRole: string;
   cv: CvFormData;
 }) {
-  const response = await apiClient('/ai/analyze-cv', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  });
+  const response = await aiRequest('/ai/analyze-cv', payload);
 
   return response.data as AiCvAnalysis;
 }
